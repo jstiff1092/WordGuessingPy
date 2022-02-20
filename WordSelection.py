@@ -67,10 +67,18 @@ def competitionSelection(inputPop):
                 mother = x
     return matingPairs(mother, father)
 
+# Function to remove guesses with fitness <= 20
+def cullWeak(inputPop):
+    newPop = []
+    for x in inputPop:
+        if fitnessCheck(x) > 20:
+            newPop.append(x)
+    return newPop
+
 # Mates a pair and gives the child the opportunity to mutate
 # Mother gives first 2 letters father gives 3rd and 4th
 # 5th letter is coinflipped between the two
-def matingPairs(mother:str, father):
+def matingPairs(mother, father):
     MUTATION_RATE = 0.015
     child = mother[:2] + father[2:-1]
     if random.random() >= 0.50:
@@ -84,4 +92,10 @@ def matingPairs(mother:str, father):
         pos += 1
     
     return child
-    
+
+# Repopulates a culled population to 40 by mating the remaining pairs randomly
+def repopulatePop(inputPop):
+    tempPop = inputPop
+    while(len(tempPop) < 40):
+        tempPop.append(matingPairs(tempPop[random.randrange(0, len(tempPop))], tempPop[random.randrange(0, len(tempPop))]))
+    return tempPop

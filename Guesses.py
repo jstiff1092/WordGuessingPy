@@ -1,4 +1,4 @@
-import random
+from operator import contains
 import WordSelection
 
 def getInput():
@@ -9,10 +9,15 @@ def getInput():
         userin = getInput()
     return userin            
 
-WordSelection.target = 'trunk'
+WordSelection.target = 'pizza'
 pop = WordSelection.generateGroups()
 children = []
+attempts = 0
 for i in pop:
     children.append(WordSelection.competitionSelection(i))
-secondgen = WordSelection.competitionSelection(children)
-print("Best second gen child is: ", secondgen, " with fitness of: ", WordSelection.fitnessCheck(secondgen))
+while 'pizza' not in children:
+    WordSelection.cullWeak(children)
+    WordSelection.repopulatePop(children)
+    print(WordSelection.competitionSelection(children))
+    print("Attempts: ", attempts)
+    attempts += 1
