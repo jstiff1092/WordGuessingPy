@@ -13,11 +13,16 @@ WordSelection.target = 'pizza'
 pop = WordSelection.generateGroups()
 children = []
 attempts = 0
-for i in pop:
-    children.append(WordSelection.competitionSelection(i))
+
 while 'pizza' not in children:
-    WordSelection.cullWeak(children)
-    WordSelection.repopulatePop(children)
-    print(WordSelection.competitionSelection(children))
+    pop = WordSelection.generateGroups()
+    for i in pop:
+        parents = WordSelection.competitionSelection(i)
+        children.append(WordSelection.matingPairs(parents[0], parents[1]))
+        children = WordSelection.cullWeak(children)
+        children = WordSelection.repopulatePop(children)
+    print("Guess: ", WordSelection.competitionSelection(children)[0])
     print("Attempts: ", attempts)
     attempts += 1
+    
+# TODO have the repopulated pop of 40 compete with 39 other groups of new pops

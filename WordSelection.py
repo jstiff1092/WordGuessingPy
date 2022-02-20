@@ -53,6 +53,15 @@ def generateGroups():
         battleRoyale.append(group)
     return battleRoyale
 
+def generateGroupsFromPop(inputPop):
+    battleRoyale = [inputPop]
+    for i in range(39):
+        group = []
+        for x in range(39):
+            group.append(initialGuess())
+        battleRoyale.append(group)
+    return battleRoyale
+
 # Takes in an array of words and selects the most fit parents and produces a child
 def competitionSelection(inputPop):
     mother = "abcde"
@@ -65,7 +74,7 @@ def competitionSelection(inputPop):
             if random.random() >= 0.50:
                 father = mother
                 mother = x
-    return matingPairs(mother, father)
+    return [mother, father]
 
 # Function to remove guesses with fitness <= 20
 def cullWeak(inputPop):
